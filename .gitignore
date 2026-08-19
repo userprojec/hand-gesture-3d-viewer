@@ -1,0 +1,13 @@
+.vercel
+node_modules/
+dist/
+echo/
+.DS_Store
+*.pyc
+__pycache__/
+.env
+.env.local
+check-build.*
+check-polar.*
+download-worker.*
+copy-screenshots.py

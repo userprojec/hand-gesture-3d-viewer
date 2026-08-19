@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hand Gesture 3D Viewer</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Three.js Canvas Container -->
+    <div id="canvas-container"></div>
+
+    <!-- Panel Toggle Button -->
+    <button id="panel-toggle" title="Toggle Panel">☰</button>
+
+    <!-- Webcam Preview (Picture-in-Picture) -->
+    <div id="webcam-preview">
+      <video id="webcam-video" playsinline></video>
+      <canvas id="hand-canvas"></canvas>
+      <div id="gesture-status">Waiting for camera...</div>
+    </div>
+
+    <!-- UI Panel -->
+    <div id="ui-panel">
+      <h2>🖐️ Hand Gesture 3D Viewer</h2>
+
+      <!-- Model Library -->
+      <div class="section">
+        <h3>Models</h3>
+        <div id="model-list">
+          <button class="model-btn active" data-model="a380-hd">✈️ A380 (HD)</button>
+          <button class="model-btn" data-model="building-hd">🏢 Building (HD)</button>
+          <button class="model-btn" data-model="rocket-hd">🚀 Rocket (HD)</button>
+          <button class="model-btn" data-model="gpu-hd">💻 GPU (HD)</button>
+          <button class="model-btn" data-model="tesla-hd">🚗 Tesla (HD)</button>
+          <button class="model-btn" data-model="satellite-hd">🛰️ Satellite (HD)</button>
+        </div>
+      </div>
+
+      <!-- Import Section -->
+      <div class="section">
+        <h3>Import Custom Model</h3>
+        <div class="import-buttons">
+          <label for="file-input" class="import-btn">📁 Choose File</label>
+          <input type="file" id="file-input" accept=".glb,.gltf,.obj,.fbx,.stl,.dae,.3ds,.ply,.zip,.rar,.7z,.tar,.gz" multiple style="display: none;" />
+          <label for="folder-input" class="import-btn">📂 Choose Folder</label>
+          <input type="file" id="folder-input" webkitdirectory directory multiple style="display: none;" />
+        </div>
+        <p class="import-hint">Supports: .glb, .gltf, .obj, .fbx, .stl, .dae, .ply, .zip, .rar, .7z</p>
+        <p id="import-status" class="status-text"></p>
+      </div>
+
+      <!-- Gesture Guide -->
+      <div class="section">
+        <h3>Gesture Controls</h3>
+        <ul class="gesture-guide">
+          <li><strong>Pinch + Drag:</strong> Rotate model</li>
+          <li><strong>Two-hand Spread/Pinch:</strong> Zoom in/out</li>
+          <li><strong>Open Palm + Move:</strong> Pan (follows hand)</li>
+          <li><strong>Fist (hold 1s):</strong> Reset view</li>
+          <li><strong>Peace Sign:</strong> Next model</li>
+          <li><strong>Rock On 🤘:</strong> Change wireframe color</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="hidden">
+      <div class="spinner"></div>
+      <p>Loading model...</p>
+    </div>
+  </div>
+
+  <script>
+    window.__debugErrors = [];
+    window.addEventListener('error', function(e) {
+      window.__debugErrors.push({msg: e.message, src: e.filename, line: e.lineno, col: e.colno});
+      document.getElementById('gesture-status').textContent = 'Error: ' + e.message;
+    });
+    window.addEventListener('unhandledrejection', function(e) {
+      window.__debugErrors.push({msg: 'Promise: ' + (e.reason?.message || e.reason), type: 'unhandledrejection'});
+      document.getElementById('gesture-status').textContent = 'Error: ' + (e.reason?.message || e.reason);
+    });
+  </script>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
